@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
@@ -9,6 +11,7 @@ const cors = require("cors");
 
 const corsOptions = {
     origin:["http://localhost:5173"],
+    credentials: true
 };
 
 app.use(cors(corsOptions))
@@ -24,6 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+console.log("authRoutes:", authRoutes);
 app.use("/auth", authRoutes);
 app.use("/", membersRoutes);
 
