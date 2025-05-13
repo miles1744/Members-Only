@@ -5,10 +5,14 @@ function Login() {
 
   return ( 
     <>
-      <form>
-        <input type="text" name="username" placeholder="Username" required />
-        <input type="password" name="password" placeholder='"passw'
-      </form>
+      {locals.user ? (
+        <>
+          <h1>Welcome Back {user.username}</h1>
+          <a href="/log-out"><button>Log Out</button></a> 
+        </>
+      ):(
+
+      )}
     </>
   )
 }
