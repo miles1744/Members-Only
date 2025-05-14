@@ -2,9 +2,19 @@
 
 const { Client } = require("pg");
 
-const SQL = `   
-CREATE TYPE membership_status_enum AS ENUM ('active', 'inactive', 'pending');
 
+const ENUM_SQL = `
+DO
+$$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'membership_status_enum') THEN
+    CREATE TYPE membership_status_enum AS ENUM ('active', 'inactive', 'pending');
+  END IF;
+END
+$$;
+`;
+
+const CREATE_TABLES_SQL = `   
 CREATE TABLE IF NOT EXISTS members (
     id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     first_name VARCHAR ( 255 ),
@@ -14,7 +24,7 @@ CREATE TABLE IF NOT EXISTS members (
     membership_status membership_status_enum NOT NULL
 );
 
-CREATE TABLE messages (
+CREATE TABLE IF NOT EXISTS messages (
     id SERIAL PRIMARY KEY,
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
     title VARCHAR(255) NOT NULL,
@@ -36,7 +46,8 @@ async function main() {
     });
 
     await client.connect();
-    await client.query(SQL);
+    await client.query(ENUM_SQL);
+    await client.query(CREATE_TABLES_SQL);
     await client.end();
 
     console.log("done")

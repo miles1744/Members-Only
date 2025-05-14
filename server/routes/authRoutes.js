@@ -4,7 +4,7 @@ const { body, validationResult } = require("express-validator");
 const router = express.Router();
 
 
-router.post("/login", passport.authenticate(), (req, res) => {
+router.post("/login", passport.authenticate("local"), (req, res) => {
     res.json({ message: "Logged in", user: req.user });
 });
 

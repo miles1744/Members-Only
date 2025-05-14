@@ -1,15 +1,22 @@
 import { useState } from 'react'
 import './App.css'
+import axios from 'axios';
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
+  const [user, setUser] = useState(null); 
 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/auth/login", formData);
+      const res = await axios.post(
+        "http://localhost:3000/auth/login",
+         formData,
+        { withCredentials: true }
+      );
       console.log("Logged in:", res.data);
+      setUser(res.data.user)
     } catch (err) {
       console.error("Login failed:", err.response?.data || err.message);
     }
@@ -25,10 +32,10 @@ function Login() {
 
   return ( 
     <>
-      {locals.user ? (
+      {user ? (
         <>
           <h1>Welcome Back {user.username}</h1>
-          <a href="/log-out"><button>Log Out</button></a> 
+          <button onClick={() => setUser(null)}>Log Out</button>
         </>
       ):(
         <>
