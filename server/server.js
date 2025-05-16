@@ -5,7 +5,6 @@ const express = require("express");
 const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require('passport-local').Strategy;
-const membersRoutes = require("./routes/membersRoutes.js")
 const authRoutes = require("./routes/authRoutes.js")
 const app = express();
 const cors = require("cors");
@@ -28,8 +27,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-console.log("authRoutes:", authRoutes);
-app.use("/auth", authRoutes);
-app.use("/", membersRoutes);
+app.use("/", authRoutes);
+
 
 app.listen(3000, () => console.log("app listening on port 3000!"));

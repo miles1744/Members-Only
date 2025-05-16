@@ -1,5 +1,4 @@
-
-
+require("dotenv").config();
 const { Client } = require("pg");
 
 
@@ -16,20 +15,20 @@ $$;
 
 const CREATE_TABLES_SQL = `   
 CREATE TABLE IF NOT EXISTS members (
-    id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    first_name VARCHAR ( 255 ),
-    last_name VARCHAR ( 255 ),
-    username VARCHAR ( 255 ) UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    membership_status membership_status_enum NOT NULL
+  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  first_name VARCHAR(255),
+  last_name VARCHAR(255),
+  username VARCHAR(255) UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  membership_status membership_status_enum NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS messages (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
-    title VARCHAR(255) NOT NULL,
-    body TEXT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  id SERIAL PRIMARY KEY,
+  user_id INTEGER REFERENCES members(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  body TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 `;
 

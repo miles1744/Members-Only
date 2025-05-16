@@ -1,8 +1,14 @@
 import { useState } from "react";
 import axios from "axios";
+import {useNavigate} from "react-router-dom"
 
 function SignupForm() {
+
+  const navigate = useNavigate();               
+
   const [formData, setFormData] = useState({
+    first_name: "",
+    last_name: "",
     username: "",
     password: "",
     confirmPassword: ""
@@ -18,8 +24,9 @@ function SignupForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:3000/auth/signup", formData);
+      const res = await axios.post("http://localhost:3000/signup", formData);
       alert("Signup successful!");
+      navigate("/");  
     } catch (err) {
       if (err.response && err.response.data.errors) {
         setErrors(err.response.data.errors);
@@ -31,6 +38,20 @@ function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <input 
+        type="text"
+        name="first_name"
+        placeholder="First Name"
+        value={formData.first_name}
+        onChange={handleChange}
+      />
+      <input
+        type="text"
+        name="last_name"
+        placeholder="Last Name"
+        value={formData.last_name}
+        onChange={handleChange}
+      />
       <input
         type="text"
         name="username"
