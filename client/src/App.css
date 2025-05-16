@@ -57,11 +57,24 @@ a {
     color: inherit;
 }
 
-.header-container{
+.header-container {
     display: flex;
-    gap: 20px;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;                    
     background-color: #BB3E00;
     color: #F7AD45;
     padding: 20px;
+  }
+  
+ 
+  .header-container button {
+    background-color: #BB3E00;
+    color: #F7AD45;
+    border: 1px solid #F7AD45;
     padding: 10px;
-}
+    font-size: large;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
