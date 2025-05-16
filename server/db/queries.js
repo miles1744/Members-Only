@@ -27,4 +27,21 @@ async function getUserById(id) {
   return rows[0];
 }
 
-module.exports = { getUserByUsername, addUser, getUserById };
+async function getAllClubs() {
+  const { rows } = await pool.query(
+    `SELECT
+       id,
+       name,
+       description,
+       created_at
+     FROM clubs
+     ORDER BY name`
+  );
+  return rows;
+}
+
+module.exports = { 
+  getUserByUsername,
+  addUser,
+  getUserById,
+  getAllClubs };
