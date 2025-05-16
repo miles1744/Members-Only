@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useState, useContext} from 'react'
 import './App.css'
 import axios from 'axios';
+import { Outlet } from 'react-router';
+import { UserContext } from "./UserContext.jsx";
+
 
 function Login() {
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [user, setUser] = useState(null); 
 
+  const [formData, setFormData] = useState({ username: "", password: "" });
+  const { user, setUser } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,14 +34,13 @@ function Login() {
   };
 
   return ( 
-    <div className="login-container">
+    <>
       {user ? (
-        <>
-          <h1>Welcome Back {user.first_name + " " + user.last_name}</h1>
-          <button onClick={() => setUser(null)}>Log Out</button>
-        </>
+        <div>
+          <Outlet/>
+        </div>
       ):(
-        <>
+        <div className="login-container">
           <h1>Please Log In</h1>
           <form onSubmit={handleSubmit}>
             <label>Username</label>
@@ -47,9 +49,9 @@ function Login() {
             <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
             <button type="submit">Login</button>
           </form>
-        </>
+        </div>
       )}
-    </div>
+    </>
   )
 }
 
