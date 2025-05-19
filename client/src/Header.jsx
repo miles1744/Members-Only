@@ -6,7 +6,7 @@ import "./App.css";
 
 export default function Header() {
   const { setUser } = useContext(UserContext);
-  const navigate     = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -22,8 +22,8 @@ export default function Header() {
 
   return (
     <div className="header-container">
-      <Link to="/"><h1>Home</h1></Link>
-      <Link to="/clubs"><h1>Clubs</h1></Link>
+      <Link to="/home"><h1>Home</h1></Link>
+      <Link to="/create"><h1>Create Post</h1></Link>
       <button onClick={handleLogout}>Log Out</button>
     </div>
   );

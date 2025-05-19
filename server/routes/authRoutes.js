@@ -1,7 +1,9 @@
 const express = require("express");
 const passport = require("passport");
+const bcrypt   = require("bcrypt");
 const { body, validationResult } = require("express-validator");
 const router = express.Router();
+const { getUserByUsername, addUser } = require("../db/queries");
 
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
@@ -33,12 +35,10 @@ router.post(
 
     console.log("↗️  Signup payload:", req.body);
 
-    // check for duplicate
     if (await getUserByUsername(req.body.username)) {
       return res.status(409).json({ errors: [{ msg: "Email already in use" }] });
     }
 
-    // hash + insert
     const hash = await bcrypt.hash(req.body.password, 10);
     const newUser = await addUser({
       first_name:       req.body.first_name,
@@ -49,9 +49,16 @@ router.post(
     });
 
     console.log("✔️  Created user:", newUser);
-    // respond
     return res.json({ message: "Signup successful", user: newUser });
   }
 );
+
+router.get("/authorize", (req, res) => {
+  if (req.isAuthenticated()) {
+    return res.json({ user: req.user });
+  }
+  res.status(401).json({ user: null });
+});
+
 
 module.exports = router;

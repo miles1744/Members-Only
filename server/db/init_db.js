@@ -5,13 +5,29 @@ const { Client } = require("pg");
 
 
 const CREATE_TABLES_SQL = `   
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+      FROM   pg_type
+     WHERE  typname = 'membership_status_enum'
+  ) THEN
+    CREATE TYPE membership_status_enum AS ENUM ('active', 'inactive');
+  END IF;
+END
+$$;
+
+
 CREATE TABLE IF NOT EXISTS members (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   first_name VARCHAR(255),
   last_name VARCHAR(255),
   username VARCHAR(255) UNIQUE NOT NULL,
   password TEXT NOT NULL,
+  membership_status  membership_status_enum NOT NULL DEFAULT 'inactive'
 );
+
+
 
 CREATE TABLE IF NOT EXISTS messages (
   id SERIAL PRIMARY KEY,
@@ -20,26 +36,6 @@ CREATE TABLE IF NOT EXISTS messages (
   body TEXT NOT NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
--- 2) New clubs table
-CREATE TABLE IF NOT EXISTS clubs (
-  id SERIAL PRIMARY KEY,         -- unique club identifier
-  name VARCHAR(255) UNIQUE NOT NULL,  -- e.g. “Chess Club”, “Bookworms”
-  description TEXT,              -- optional longer description
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-CREATE TABLE IF NOT EXISTS member_clubs (
-  member_id INTEGER NOT NULL
-    REFERENCES members(id)
-    ON DELETE CASCADE,
-  club_id   INTEGER NOT NULL
-    REFERENCES clubs(id)
-    ON DELETE CASCADE,
-  joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (member_id, club_id)  -- prevent duplicate joins
-);
-
 `;
 
 async function main() {
@@ -55,7 +51,6 @@ async function main() {
     });
 
     await client.connect();
-    await client.query(ENUM_SQL);
     await client.query(CREATE_TABLES_SQL);
     await client.end();
 

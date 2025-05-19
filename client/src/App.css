@@ -65,10 +65,10 @@ a {
     background-color: #BB3E00;
     color: #F7AD45;
     padding: 20px;
-  }
+}
   
  
-  .header-container button {
+.header-container button {
     background-color: #BB3E00;
     color: #F7AD45;
     border: 1px solid #F7AD45;
@@ -76,5 +76,104 @@ a {
     font-size: large;
     border-radius: 10px;
     cursor: pointer;
+}
+ 
+.join-club-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 30px;
+    height: 91vh;
+    color: #BB3E00;
+    background-color: #F7AD45;
+}
+
+.join-club-container input{
+    font-size: 20px;
+    color: #BB3E00;
+}
+
+.join-club-container input::placeholder{
+    font-size: 20px;
+    color: #BB3E00;
+}
+
+.join-club-container button{
+    font-size: 16px;
+    padding: 5px;
+    color: #BB3E00;
+}
+
+.btn-to-create{
+    font-size: 16px;
+    padding: 5px;
+    color: #BB3E00;
+    cursor: pointer;
+}
+
+.home-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+}
+
+textarea {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    overflow: auto;
   }
   
+.create-message-container{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+}
+
+.create-message-container form{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.create-message-container form input{
+    font-size: 20px;
+    border: 2px solid #F7AD45;
+    color: #F7AD45;
+}
+
+.create-message-container form input::placeholder{
+    color: #F7AD45;
+}
+
+.create-message-container form textarea{
+    font-size: 12px;
+    border: 2px solid #F7AD45;
+    color: #F7AD45;
+}
+
+.create-message-container form textarea::placeholder{
+    color: #F7AD45;
+}
+
+.create-message-container h1{
+    color: #F7AD45;
+}
+
+.btn-create{
+    color: #F7AD45;
+    font-size: 20px;
+    padding: 5px;
+    border-radius: 10px;
+    border: 1px solid #F7AD45;
+    background-color: rgb(255, 255, 255);
+    cursor: pointer;
+}

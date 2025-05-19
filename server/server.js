@@ -8,6 +8,9 @@ const LocalStrategy = require('passport-local').Strategy;
 const authRoutes = require("./routes/authRoutes.js")
 const app = express();
 const cors = require("cors");
+const joinRoutes = require("./routes/joinRoutes");
+const createRoutes = require("./routes/createRoutes.js")
+
 
 const corsOptions = {
     origin:["http://localhost:5173"],
@@ -28,6 +31,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use("/", authRoutes);
+app.use("/", joinRoutes);
+app.use("/", createRoutes)
 
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
