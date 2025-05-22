@@ -1,17 +1,28 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Outlet , Navigate, useNavigate} from "react-router-dom";
 import axios from "axios";
 import { UserContext } from "./UserContext.jsx";
+
 const Create = () => {
-    const { user } = useContext(UserContext);
+    const { user, status } = useContext(UserContext);
     const navigate = useNavigate();
     const [title, setTitle] = useState("");
     const [body, setBody] = useState("");
 
-    if (!user) {
-        return <Navigate to="/" replace />;
-      }
+
     
+    useEffect(() => {
+      if (
+        status === "ready"
+        && (
+          user === null
+          || user.membership_status === "inactive"
+        )
+      ) {
+        navigate("/", { replace: true });
+      }
+    }, [status, user, navigate]);
+  
 
     const handleCreatePost = async (e) => {
         e.preventDefault();

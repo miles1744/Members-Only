@@ -9,7 +9,8 @@ const authRoutes = require("./routes/authRoutes.js")
 const app = express();
 const cors = require("cors");
 const joinRoutes = require("./routes/joinRoutes");
-const createRoutes = require("./routes/createRoutes.js")
+const createRoutes = require("./routes/createRoutes.js");
+const messagesRoutes = require("./routes/messageRoutes.js")
 
 
 const corsOptions = {
@@ -24,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
   }));
 
 app.use(passport.initialize());
@@ -32,7 +33,7 @@ app.use(passport.session());
 
 app.use("/", authRoutes);
 app.use("/", joinRoutes);
-app.use("/", createRoutes)
-
+app.use("/", createRoutes);
+app.use("/", messagesRoutes);
 
 app.listen(3000, () => console.log("app listening on port 3000!"));

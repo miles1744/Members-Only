@@ -8,13 +8,13 @@ async function getUserByUsername(username) {
   return rows[0];
 }
 
-async function addUser({ first_name, last_name, username, password, membership_status }) {
+async function addUser({ first_name, last_name, username, password, membership_status, admin }) {
   const { rows } = await pool.query(
     `INSERT INTO members
-      (first_name, last_name, username, password, membership_status)
-     VALUES ($1, $2, $3, $4, $5)
-     RETURNING id, first_name, last_name, username, membership_status`,
-    [first_name, last_name, username, password, membership_status]
+      (first_name, last_name, username, password, membership_status, admin)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, first_name, last_name, username, membership_status, admin`,
+    [first_name, last_name, username, password, membership_status, admin]
   );
   return rows[0];
 }
@@ -48,10 +48,45 @@ async function addMessage({ user_id, title, body }) {
   return rows[0];
 }
 
+async function deleteMessage(id) {
+  const { rows } = await pool.query(
+    `DELETE FROM messages
+     WHERE id = $1
+     RETURNING *;`,
+    [id]
+  );
+  return rows[0] || null;
+}
+
+
+async function getMessages() {
+  const { rows } = await pool.query(
+    `
+    SELECT
+      messages.id,
+      messages.title,
+      messages.body,
+      messages.created_at,
+      members.id           AS author_id,
+      members.username     AS author_username,
+      members.first_name,
+      members.last_name
+    FROM messages 
+    JOIN members 
+      ON members.id = messages.user_id
+    ORDER BY messages.created_at DESC
+    `
+  );
+  return rows;
+}
+
+
 module.exports = { 
   getUserByUsername,
   addUser,
   getUserById,
   updateMembershipStatus,
-  addMessage
+  addMessage,
+  getMessages,
+  deleteMessage
 };

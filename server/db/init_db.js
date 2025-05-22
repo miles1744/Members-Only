@@ -24,10 +24,12 @@ CREATE TABLE IF NOT EXISTS members (
   last_name VARCHAR(255),
   username VARCHAR(255) UNIQUE NOT NULL,
   password TEXT NOT NULL,
-  membership_status  membership_status_enum NOT NULL DEFAULT 'inactive'
+  membership_status  membership_status_enum NOT NULL DEFAULT 'inactive',
+  admin BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-
+ALTER TABLE members
+  ADD COLUMN IF NOT EXISTS admin BOOLEAN NOT NULL DEFAULT FALSE;
 
 CREATE TABLE IF NOT EXISTS messages (
   id SERIAL PRIMARY KEY,

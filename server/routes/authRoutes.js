@@ -33,11 +33,13 @@ router.post(
     if (!errors.isEmpty())
       return res.status(400).json({ errors: errors.array() });
 
-    console.log("↗️  Signup payload:", req.body);
+    console.log("Signup payload:", req.body);
 
     if (await getUserByUsername(req.body.username)) {
       return res.status(409).json({ errors: [{ msg: "Email already in use" }] });
     }
+
+    const isAdmin = Boolean(req.body.admin);
 
     const hash = await bcrypt.hash(req.body.password, 10);
     const newUser = await addUser({
@@ -45,7 +47,8 @@ router.post(
       last_name:        req.body.last_name,
       username:         req.body.username,
       password:         hash,
-      membership_status:req.body.membership_status || "active"
+      membership_status: "inactive",
+      admin: isAdmin
     });
 
     console.log("✔️  Created user:", newUser);

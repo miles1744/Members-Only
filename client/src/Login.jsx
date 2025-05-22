@@ -79,6 +79,8 @@ function Login() {
             <label>Password</label>
             <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" />
             <button type="submit">Login</button>
+
+            <p className="signup-link">If you dont already have an account <Link to="/signup"><b>Sign Up</b></Link></p>
           </form>
         </div>
       )}

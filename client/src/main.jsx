@@ -1,9 +1,11 @@
+import axios from "axios";
+axios.defaults.withCredentials = true;
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Login from './Login.jsx'
 import Header from './Header.jsx';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import SignupForm from './SignUp.jsx';
+import SignupForm from './Signup.jsx';
 import { UserProvider } from "./UserContext.jsx";
 import Create from './Create.jsx';
 import Home from './Home.jsx';
